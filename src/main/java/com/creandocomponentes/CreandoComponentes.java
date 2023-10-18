@@ -5,8 +5,12 @@
 
 package com.creandocomponentes;
 
+import java.awt.Graphics;
 import java.io.Serializable;
 import javax.swing.JPanel;
+import java.io.File;
+import java.util.Optional;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -14,17 +18,33 @@ import javax.swing.JPanel;
  */
 public class CreandoComponentes extends JPanel implements Serializable {
 
-    private String rutaImagen;
+    private Optional<File> rutaImagen;
     
     public CreandoComponentes() {
+        this.rutaImagen = Optional.empty();
     }
 
-    public String getRutaImagen() {
-        return rutaImagen;
+    public File getRutaImagen() {
+        return this.rutaImagen.orElse(null);
     }
 
-    public void setRutaImagen(String rutaImagen) {
-        this.rutaImagen = rutaImagen;
+    public void setRutaImagen(File rutaImagen) {
+        this.rutaImagen = Optional.ofNullable(rutaImagen);
+    }
+    
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        
+        this.rutaImagen.filter( file -> file.exists() )
+        .ifPresent(file -> {
+            ImageIcon img = new ImageIcon(file.getAbsolutePath());
+            g.drawImage(img.getImage(), 0, 0, null);
+        });
+//        if (this.rutaImagen!=null  &&  this.rutaImagen.exists()) {
+//            ImageIcon img = new ImageIcon(this.rutaImagen.getAbsolutePath());
+//            g.drawImage(img.getImage(), 0, 0, null);
+//        }
     }
 
     
