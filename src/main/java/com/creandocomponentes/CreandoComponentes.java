@@ -5,7 +5,9 @@
 
 package com.creandocomponentes;
 
+import java.awt.AlphaComposite;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.io.Serializable;
 import javax.swing.JPanel;
 import java.io.File;
@@ -18,33 +20,51 @@ import javax.swing.ImageIcon;
  */
 public class CreandoComponentes extends JPanel implements Serializable {
 
-    private Optional<File> rutaImagen;
+    private ImagenFondo imagenFondo;
+    //private Optional<File> rutaImagen;
     
     public CreandoComponentes() {
-        this.rutaImagen = Optional.empty();
+        //this.rutaImagen = Optional.empty();
     }
 
-    public File getRutaImagen() {
-        return this.rutaImagen.orElse(null);
+//    public File getRutaImagen() {
+//        return this.rutaImagen.orElse(null);
+//    }
+//
+//    public void setRutaImagen(File rutaImagen) {
+//        this.rutaImagen = Optional.ofNullable(rutaImagen);
+//    }
+
+    public ImagenFondo getImagenFondo() {
+        return imagenFondo;
     }
 
-    public void setRutaImagen(File rutaImagen) {
-        this.rutaImagen = Optional.ofNullable(rutaImagen);
+    public void setImagenFondo(ImagenFondo imagenFondo) {
+        this.imagenFondo = imagenFondo;
     }
     
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         
-        this.rutaImagen.filter( file -> file.exists() )
-        .ifPresent(file -> {
-            ImageIcon img = new ImageIcon(file.getAbsolutePath());
-            g.drawImage(img.getImage(), 0, 0, null);
-        });
-//        if (this.rutaImagen!=null  &&  this.rutaImagen.exists()) {
-//            ImageIcon img = new ImageIcon(this.rutaImagen.getAbsolutePath());
-//            g.drawImage(img.getImage(), 0, 0, null);
-//        }
+        if (this.imagenFondo!=null) {
+              if (this.imagenFondo.getRutaImagen()!=null  &&  this.imagenFondo.getRutaImagen().exists() ) {
+                ImageIcon img = new ImageIcon(imagenFondo.getRutaImagen().getAbsolutePath());
+                Graphics2D g2d = (Graphics2D)g;
+                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, imagenFondo.getOpacidad()));
+                g.drawImage(img.getImage(), 0, 0, null);
+                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
+              } 
+        }
+        
+        //            this.rutaImagen.filter( file -> file.exists() )
+//            .ifPresent(file -> {
+//                ImageIcon img = new ImageIcon(file.getAbsolutePath());
+//                Graphics2D g2d = (Graphics2D)g;
+//                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, imagenFondo.getOpacidad()));
+//                g.drawImage(img.getImage(), 0, 0, null);
+//                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
+//            });
     }
 
     
