@@ -5,7 +5,10 @@
 package com.creandocomponentes;
 
 import java.io.File;
+import java.util.function.Predicate;
 import javax.swing.JFileChooser;
+import javax.swing.JSlider;
+import javax.swing.JTextField;
 
 /**
  *
@@ -34,6 +37,9 @@ public class ImagenFondoPanel extends javax.swing.JPanel {
         btnLoadFile = new javax.swing.JButton();
         lblOpacidad = new javax.swing.JLabel();
         sliOpacidad = new javax.swing.JSlider();
+        txfOpacidad = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel1.setText("Imagen");
@@ -48,7 +54,43 @@ public class ImagenFondoPanel extends javax.swing.JPanel {
         lblOpacidad.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblOpacidad.setText("Opacidad:");
 
+        sliOpacidad.setMinorTickSpacing(1);
         sliOpacidad.setValue(100);
+        sliOpacidad.setRequestFocusEnabled(false);
+        sliOpacidad.setValueIsAdjusting(true);
+        sliOpacidad.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                sliOpacidadStateChangedhlr(evt);
+            }
+        });
+
+        txfOpacidad.setText(sliOpacidad.getValue() + "%");
+        txfOpacidad.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txfOpacidadFocusLostHlr(evt);
+            }
+        });
+        txfOpacidad.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                txfOpacidadInputMethodTextChangeHlr(evt);
+            }
+        });
+        txfOpacidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txfOpacidadActionPerformed(evt);
+            }
+        });
+        txfOpacidad.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                txfOpacidadPropertyChangeHlr(evt);
+            }
+        });
+
+        jLabel2.setText("jLabel2");
+
+        jLabel3.setText("jLabel3");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -56,17 +98,22 @@ public class ImagenFondoPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(23, 23, 23)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblOpacidad)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txfArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblOpacidad)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(btnLoadFile, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(sliOpacidad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(78, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txfArchivo, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
+                            .addComponent(sliOpacidad, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txfOpacidad, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnLoadFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -79,8 +126,13 @@ public class ImagenFondoPanel extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblOpacidad)
-                    .addComponent(sliOpacidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(220, Short.MAX_VALUE))
+                    .addComponent(sliOpacidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txfOpacidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -94,6 +146,84 @@ public class ImagenFondoPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnOpacidadhdl
 
+    private void sliOpacidadStateChangedhlr(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sliOpacidadStateChangedhlr
+        this.txfOpacidad.setText(((JSlider)evt.getSource()).getValue() + "%");
+    }//GEN-LAST:event_sliOpacidadStateChangedhlr
+
+    private void txfOpacidadFocusLostHlr(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txfOpacidadFocusLostHlr
+//        String tmp = Integer.toString(this.sliOpacidad.getValue());
+//        String txt = ((JTextField)evt.getSource()).getText();
+//        
+//        if (evt.getSource() != null  &&  txt.matches("[0-9]%")) {
+//            try {
+//                this.sliOpacidad.setValue(Integer.parseInt( txt.replace('%', '\u0000') ));
+//            } catch (NumberFormatException ex) {
+//                this.txfOpacidad.setText(tmp + "%");
+//            }
+//        } else {
+//            this.txfOpacidad.setText(tmp + "%");
+//        }
+    }//GEN-LAST:event_txfOpacidadFocusLostHlr
+
+    private void txfOpacidadPropertyChangeHlr(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txfOpacidadPropertyChangeHlr
+//        String tmp = Integer.toString(this.sliOpacidad.getValue());
+//        String txt = ((JTextField)evt.getSource()).getText();
+//        
+//        if (evt.getSource() != null  &&  txt.matches("[0-9]")) {
+//            try {
+//                this.sliOpacidad.setValue(Integer.parseInt( txt.replace('%', '\u0000') ));
+//            } catch (NumberFormatException ex) {
+//                this.txfOpacidad.setText(tmp + "%");
+//            }
+//        } else {
+//            this.txfOpacidad.setText(tmp + "%");
+//            this.sliOpacidad.setValue(Integer.parseInt("Fail" + txt.replace('%', '\u0000') ));
+//        }
+    }//GEN-LAST:event_txfOpacidadPropertyChangeHlr
+
+    private void txfOpacidadInputMethodTextChangeHlr(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txfOpacidadInputMethodTextChangeHlr
+//        String tmp = Integer.toString(this.sliOpacidad.getValue());
+//        String txt = ((JTextField)evt.getSource()).getText();
+//        
+//        if (evt.getSource() != null  &&  txt.matches("[0-9]")) {
+//            try {
+//                this.sliOpacidad.setValue(Integer.parseInt( txt.replace('%', '\u0000') ));
+//            } catch (NumberFormatException ex) {
+//                this.txfOpacidad.setText(tmp + "%");
+//            }
+//        } else {
+//            this.txfOpacidad.setText(tmp + "%");
+//            this.sliOpacidad.setValue(Integer.parseInt("Fail" + txt.replace('%', '\u0000') ));
+//        }
+    }//GEN-LAST:event_txfOpacidadInputMethodTextChangeHlr
+
+    private void txfOpacidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txfOpacidadActionPerformed
+        try {
+        String tmp = Integer.toString(this.sliOpacidad.getValue());
+        String txt = ((JTextField)evt.getSource()).getText();
+        Integer opc = Integer.parseInt(txt.replaceAll("%", "")); //txt.replaceAll("%", "") );.replace('%', '\u0000')
+        
+        this.jLabel3.setText("Entering in Action Performance with " + opc);
+        
+        if ((!txt.isBlank()  &&  txt.matches("[0-9]+%{0,1}")) &&  
+            (opc>=0  &&  opc<=100)) {
+                try {
+                    this.jLabel2.setText("Correct" + opc);
+                    this.sliOpacidad.setValue(opc);
+                } catch (NumberFormatException ex) {
+                    this.jLabel2.setText("Fail" + opc);
+                    this.sliOpacidad.setValue(opc);
+                }
+        } else {
+            this.txfOpacidad.setText(tmp + "%");
+            this.jLabel2.setText("Fail" + Integer.toString(opc));
+        }
+        
+        } catch(Exception ex) {
+            this.jLabel2.setText(ex.toString());
+        }
+    }//GEN-LAST:event_txfOpacidadActionPerformed
+
     
     public ImagenFondo getSelectedValue() {
         File f = new File(this.txfArchivo.getText());
@@ -105,8 +235,11 @@ public class ImagenFondoPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLoadFile;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel lblOpacidad;
     private javax.swing.JSlider sliOpacidad;
     private javax.swing.JTextField txfArchivo;
+    private javax.swing.JTextField txfOpacidad;
     // End of variables declaration//GEN-END:variables
 }
