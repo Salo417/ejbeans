@@ -25,7 +25,10 @@ public class ImagenFondoPropertyEditorSupport extends PropertyEditorSupport {
 
     @Override
     public String getJavaInitializationString() {
-        return super.getJavaInitializationString(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+        String path = imgPanel.getSelectedValue().getRutaImagen().getAbsolutePath().replace("\\", "\\\\");
+        Float opacidad = imgPanel.getSelectedValue().getOpacidad();
+        
+        return "new com.creandocomponentes.ImagenFondo(new java.io.File(\"" + path + "\"), " + opacidad + "f)";
     }
 
     @Override
